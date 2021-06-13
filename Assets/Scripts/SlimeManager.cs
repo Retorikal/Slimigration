@@ -33,6 +33,13 @@ namespace Mechanics.Player{
 
         void Update(){}
 
+        public bool SubmitSlime(Slime s){
+            slimes.Remove(s);
+            s.Despawn(true);
+
+            return(slimes.Count == 0);
+        }
+
         public Slime GetSlimeOnCoord(Vector3Int coord){
             foreach(var s in slimes){
                 if(s.location.x == coord.x && s.location.y == coord.y){

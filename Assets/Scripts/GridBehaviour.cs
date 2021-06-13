@@ -11,6 +11,7 @@ namespace Mechanics.Tiles{
         public GameObject blockTilesObject;
         public GameObject trailTilesObject;
         public Tile[] tileList;
+        public Tile[] goalTiles;
 
         public bool acceptingInput = true;
         bool primeAcceptInput = true;
@@ -30,6 +31,9 @@ namespace Mechanics.Tiles{
             tileCharDict.Add(tileList[3], TileChar.Red | TileChar.Green); // O
             tileCharDict.Add(tileList[4], TileChar.Red | TileChar.Blue); // P
             tileCharDict.Add(tileList[5], TileChar.Green | TileChar.Blue); // C
+            foreach(var t in goalTiles){
+                tileCharDict.Add(t, TileChar.Goal | TileChar.AllColor); // C
+            }
 
             ssSelect = GameObject.FindGameObjectWithTag("SplitSelector").GetComponent<SlimeSplitSelector>();
             sm = slimeManObject.GetComponent<SlimeManager>();
@@ -56,10 +60,26 @@ namespace Mechanics.Tiles{
 
                 if(!slimeMoved){
                     var s = sm.GetSlimeOnCoord(targetPos);
-                    if(s != null && !s.IsBaseSlime()) YieldControlSplit(s);
+                    if(s == null) 
+                        return;
+
+                    if((ulong)(GetTileChar(targetPos) & TileChar.Goal) > 0){
+                        var allSubmitted = sm.SubmitSlime(s);
+                        if(allSubmitted) Win();
+                        return;
+                    }
+
+                    if(!s.IsBaseSlime()){
+                        YieldControlSplit(s);
+                        return;
+                    }
                 }
 
             }
+        }
+
+        public void Win(){
+            Debug.Log("Win!");
         }
 
         public TileChar GetTileChar(Vector3Int location){
@@ -109,6 +129,7 @@ namespace Mechanics.Tiles{
         Purple      = Red | Blue,
         Corrosive   = 1 << 3,
         Slippery    = 1 << 4,
+        Goal        = 1 << 5,
         AllColor   = Red | Green | Blue
     }
 }
