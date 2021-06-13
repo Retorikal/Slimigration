@@ -1,0 +1,6 @@
+# Specify filepatterns you want git to ignore.
+Library/
+Logs/
+Packages/
+Temp/
+UserSettings/
