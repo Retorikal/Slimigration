@@ -5,7 +5,7 @@ using Mechanics.Tiles;
 using Mechanics.Player;
 
 public class SlimeSplitSelector : MonoBehaviour{
-    public ulong[] slimeChars = {0, 0};
+    public Slime[] slimeComp = {null, null};
     public Vector3Int[] directions = {new Vector3Int(0, 0, 0), new Vector3Int(0, 0, 0)};
     public Color[] colors = {new Color(75, 75, 75, 255), new Color(75, 75, 75, 255)};
     public Slime s;
@@ -108,7 +108,7 @@ public class SlimeSplitSelector : MonoBehaviour{
             var targetTileLoc = s.location + direction;
             var tileChar = gb.GetTileChar(targetTileLoc);
 
-            if(gb.IsFreeTile(targetTileLoc) && s.TargetTileMatch(tileChar)){
+            if(gb.IsFreeTile(targetTileLoc) && slimeComp[selcPtr].TargetTileMatch(tileChar)){
                 directions[selcPtr] = direction;
                 selcPtr++;
             }
@@ -123,10 +123,10 @@ public class SlimeSplitSelector : MonoBehaviour{
     public void SelectSplit(GridBehaviour gbInst, Slime sInst){
         s = sInst;
         gb = gbInst;
-        slimeChars[0] = s.componentSlime[0].slimeChars;
-        slimeChars[1] = s.componentSlime[1].slimeChars;
-        colors[0] = GetColor(slimeChars[0]);
-        colors[1] = GetColor(slimeChars[1]);
+        slimeComp[0] = s.componentSlime[0];
+        slimeComp[1] = s.componentSlime[1];
+        colors[0] = GetColor(slimeComp[0].slimeChars);
+        colors[1] = GetColor(slimeComp[1].slimeChars);
         selcPtr = 0;
 
         // Move selector to location

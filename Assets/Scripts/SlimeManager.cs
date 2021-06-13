@@ -52,8 +52,8 @@ namespace Mechanics.Player{
             slimes.Remove(s1);
             s0.Despawn(false);
             s1.Despawn(false);
-            s0.moved = true;
-            s1.moved = true;
+            s0.DisableMove();
+            s1.DisableMove();
 
             newSlime.componentSlime[0] = s0;
             newSlime.componentSlime[1] = s1;
@@ -68,7 +68,7 @@ namespace Mechanics.Player{
             // If base slime, return.
             if(s0 == null || s1 == null) return;
 
-            trailMan.DrawTrail(source.location, source.slimeChars, source.direction, source.prevDir);
+            trailMan.DrawTrail(source.location, source.slimeChars, new Vector3Int(0, 0, 0), source.direction);
 
             slimes.Add(s0);
             slimes.Add(s1);
@@ -77,9 +77,6 @@ namespace Mechanics.Player{
             s0.Spawn(source.location + dir0);
             s1.Spawn(source.location + dir1);
             source.Despawn(true);
-
-
-            Debug.Log("Split successful! " + slimes.Count);
             
             // Enable all slime to move after all has moved
             bool allMoved = true;
