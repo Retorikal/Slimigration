@@ -16,12 +16,18 @@ namespace Mechanics.Player{
         public bool corrosive;
         public bool moved;
         public ulong slimeChars;
-
         public Slime[] componentSlime = {null, null};
         public Vector3Int location;
         public Vector3Int facing = Vector3Int.down;
 
+        public bool firstSpawn = true;
+
+        public Vector3Int direction;
+        public Vector3Int prevDir;
+
         SpriteRenderer sr;
+        SpriteRenderer bgSr;
+        Animator anim;
         SlimeManager sm;
         int xTweenID, yTweenID;
         bool toBeDestroyed = false;
@@ -32,9 +38,10 @@ namespace Mechanics.Player{
             xTweenID = -1;
             yTweenID = -1;
 
-            sm = gameObject.GetComponentInParent<SlimeManager>();
+            anim = gameObject.GetComponent<Animator>();
             sr = gameObject.GetComponent<SpriteRenderer>();
-            SetColor(r, g, b);
+            sm = gameObject.GetComponentInParent<SlimeManager>();
+            bgSr = gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>();
             slimeChars +=
                 (slippery    ? i<<3 : o) +
                 (corrosive   ? i<<4 : o);
@@ -43,6 +50,7 @@ namespace Mechanics.Player{
         void Start(){
             location.x = (int)transform.position.x;
             location.y = (int)transform.position.y;
+            SetColor(r, g, b);
         }
 
         public void SetColor(bool _r, bool _g, bool _b){
@@ -72,6 +80,9 @@ namespace Mechanics.Player{
                     sr.color = Statics.globC; break;
                 case TileChar.Purple:
                     sr.color = Statics.globP; break;
+                default:
+                    sr.color = new Color(255, 255, 255, 255); 
+                    break;
             }
         }
 
@@ -83,6 +94,31 @@ namespace Mechanics.Player{
                 facing.z = 0;
                 location = target;
                 var worldTarget = GetWorldCoord();
+
+                prevDir = direction;
+                direction = facing;
+
+                switch(facing.y){
+                    case 1:
+                        anim.SetTrigger("W");
+                        break;
+                    case -1:
+                        anim.SetTrigger("S"); 
+                        break;
+                }
+
+                switch(facing.x){
+                    case 1:
+                        anim.SetTrigger("A"); 
+                        sr.flipX = false;
+                        bgSr.flipX = false;
+                        break;
+                    case -1:
+                        anim.SetTrigger("A");
+                        sr.flipX = true;
+                        bgSr.flipX = true;
+                        break;
+                }
 
                 if(xTweenID == -1 || LeanTween.isTweening(xTweenID)) LeanTween.cancel(xTweenID);
                 if(yTweenID == -1 || LeanTween.isTweening(yTweenID)) LeanTween.cancel(yTweenID);
@@ -101,24 +137,39 @@ namespace Mechanics.Player{
 
         // Enter the game on given location and play animation.
         public void Spawn(Vector3Int targetLoc){
-            Debug.Log("Spawn!");
+            Debug.Log("Spawn!" + sr.color);
 
             location = targetLoc;
             transform.position = GetWorldCoord();
 
             sr.enabled = true;
+            bgSr.enabled = true;
             gameObject.SetActive(true);
+            anim.SetTrigger("Spawn");
             // Play spawn animation
         }
 
         // Remove from game. If permanent, bool destroy = true.
         public void Despawn(bool destroy){
+            direction = new Vector3Int(-1, -1, -1);
+            prevDir = new Vector3Int(-1, -1, -1);
+            Debug.Log("DeSpawn!" + sr.color);
+
             toBeDestroyed = destroy;
+            anim.ResetTrigger("Spawn");
+            anim.SetTrigger("Kill");
             // Play despawn animation
 
             // Move to function activated by AC
-            if(toBeDestroyed) Destroy(gameObject);
-            else sr.enabled = false;
+        }
+
+        public void PostAnimDespawn(){
+            if(toBeDestroyed) 
+                Destroy(gameObject);
+            else{ 
+                sr.enabled = false;
+                bgSr.enabled = false;
+            }
         }
 
         // Enable this slime to move, play corresponding animation

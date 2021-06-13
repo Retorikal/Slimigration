@@ -25,7 +25,7 @@ public class SlimeSplitSelector : MonoBehaviour{
     Color defaultColor;
 
     void Awake(){
-        defaultColor = new Color(75, 75, 75, 255);
+        defaultColor = new Color(75, 75, 75, 100);
         wSprite = wPointer.GetComponent<SpriteRenderer>();
         aSprite = aPointer.GetComponent<SpriteRenderer>();
         sSprite = sPointer.GetComponent<SpriteRenderer>();
@@ -77,6 +77,15 @@ public class SlimeSplitSelector : MonoBehaviour{
         else
             ChangeWASDColor(directions[0], colors[0], direction, colors[1]);
 
+    }
+
+    public void OnMouseExit(){
+        var center = new Vector3Int(0, 0, 0);
+
+        if(selcPtr == 0)
+            ChangeWASDColor(center, colors[0], center, colors[0]);
+        else
+            ChangeWASDColor(directions[0], colors[0], center, colors[1]);
     }
 
     public void OnMouseDown(){

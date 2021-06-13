@@ -25,14 +25,17 @@ namespace Mechanics.Player{
             trailMan = trailGridObject.GetComponent<TrailManager>();
         }
 
-        void Start(){}
+        void Start(){
+            foreach(var s in slimes){
+                s.Spawn(s.location);
+            }    
+        }
 
         void Update(){}
 
         public Slime GetSlimeOnCoord(Vector3Int coord){
             foreach(var s in slimes){
                 if(s.location.x == coord.x && s.location.y == coord.y){
-                    Debug.Log("Slime acquired!");
                     return s;
                 }
             }    
@@ -45,17 +48,17 @@ namespace Mechanics.Player{
             var newSlime = newSlimeGO.GetComponent<Slime>();
             slimes.Add(newSlime);
 
-            newSlime.componentSlime[0] = s0;
-            newSlime.componentSlime[1] = s1;
-            newSlime.SetColor(s0.r || s1.r, s0.g || s1.g, s0.b || s1.b);
-            newSlime.Spawn(s0.location);
-
             slimes.Remove(s0);
             slimes.Remove(s1);
             s0.Despawn(false);
             s1.Despawn(false);
             s0.moved = true;
             s1.moved = true;
+
+            newSlime.componentSlime[0] = s0;
+            newSlime.componentSlime[1] = s1;
+            newSlime.SetColor(s0.r || s1.r, s0.g || s1.g, s0.b || s1.b);
+            newSlime.Spawn(s0.location);
         } 
 
         public void SplitSlimes(Slime source, Vector3Int dir0, Vector3Int dir1){
@@ -65,14 +68,16 @@ namespace Mechanics.Player{
             // If base slime, return.
             if(s0 == null || s1 == null) return;
 
+            trailMan.DrawTrail(source.location, source.slimeChars, source.direction, source.prevDir);
+
             slimes.Add(s0);
             slimes.Add(s1);
             slimes.Remove(source);
 
             s0.Spawn(source.location + dir0);
             s1.Spawn(source.location + dir1);
+            source.Despawn(true);
 
-            trailMan.DrawTrail(source.location, source.slimeChars);
 
             Debug.Log("Split successful! " + slimes.Count);
             
@@ -89,7 +94,6 @@ namespace Mechanics.Player{
                 }
             }
 
-            source.Despawn(true);
         }
 
         // Respond to click on given target
@@ -102,7 +106,7 @@ namespace Mechanics.Player{
                 var pastLoc = s.location;
                 bool moved = s.MoveIfValid(target, tc);
                 if(moved){
-                    trailMan.DrawTrail(pastLoc, s.slimeChars);
+                    trailMan.DrawTrail(pastLoc, s.slimeChars, s.direction, s.prevDir);
                     someMoved = true;
                 }
 
