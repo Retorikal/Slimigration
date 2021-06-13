@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-
+using UnityEngine.SceneManagement;
 using Mechanics.Player;
 
 namespace Mechanics.Tiles{
@@ -79,7 +79,11 @@ namespace Mechanics.Tiles{
         }
 
         public void Win(){
-            Debug.Log("Win!");
+            var i = SceneManager.GetActiveScene().buildIndex;
+            if (i != 5)
+            {
+                SceneManager.LoadScene(i + 1);
+            }
         }
 
         public TileChar GetTileChar(Vector3Int location){
