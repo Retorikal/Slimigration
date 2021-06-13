@@ -188,9 +188,9 @@ namespace Mechanics.Player{
 
         // Check if this slime can go to a tile with given TileChar
         public bool TargetTileMatch(TileChar tc){
-            bool colorMatch = ((ulong) (tc & TileChar.AllColor) ^ slimeChars) == 0;
-            Debug.Log("Tile match: " + (ulong)tc + " " + slimeChars);
-            bool blankTile = tc == TileChar.AllColor;
+            bool colorMatch = ((ulong)(tc & TileChar.AllColor) ^ slimeChars) == 0;
+            bool blankTile = (tc & TileChar.AllColor) == TileChar.AllColor;
+            Debug.Log("Tile match: " + (ulong)tc + " " + slimeChars + " " + colorMatch + " " + blankTile);
             return colorMatch || blankTile;
         }
 

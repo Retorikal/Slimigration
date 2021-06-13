@@ -80,7 +80,7 @@ namespace Mechanics.Tiles{
 
         public void Win(){
             var i = SceneManager.GetActiveScene().buildIndex;
-            if (i != 5)
+            if (i != 4)
             {
                 SceneManager.LoadScene(i + 1);
             }
