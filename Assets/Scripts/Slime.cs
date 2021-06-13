@@ -89,7 +89,7 @@ namespace Mechanics.Player{
         public bool MoveIfValid(Vector3Int target, TileChar tc){
             if(IsAdjacent(target) && TargetTileMatch(tc) && !moved){
                 // Determine moving direction
-                moved = true;
+                DisableMove();
                 facing = (target - location);
                 facing.z = 0;
                 location = target;
@@ -151,8 +151,8 @@ namespace Mechanics.Player{
 
         // Remove from game. If permanent, bool destroy = true.
         public void Despawn(bool destroy){
-            direction = new Vector3Int(-1, -1, -1);
-            prevDir = new Vector3Int(-1, -1, -1);
+            direction = new Vector3Int(0, 0, 0);
+            prevDir = new Vector3Int(0, 0, 0);
             Debug.Log("DeSpawn!" + sr.color);
 
             toBeDestroyed = destroy;
@@ -174,8 +174,16 @@ namespace Mechanics.Player{
 
         // Enable this slime to move, play corresponding animation
         public void EnableMove(){
+            Debug.Log("Enabled");
             moved = false;
+            bgSr.color = new Color(255, 255, 255, 255);
             // change sprite
+        }
+
+        public void DisableMove(){
+            moved = true;
+            bgSr.color = new Color(85, 85, 85, 255);
+            Debug.Log("Disabled " + bgSr.color);            
         }
 
         // Check if this slime can go to a tile with given TileChar

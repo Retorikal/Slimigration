@@ -51,7 +51,6 @@ namespace Mechanics.Tiles{
 
                 // Validate clicks that are not on blocked area
                 if(IsFreeTile(targetPos)){
-                    Debug.Log("Clicked " + targetPos + ", chars: " + (tc & TileChar.AllColor));
                     slimeMoved = sm.MoveSlimes(targetPos, tc, tm);
                 }
 
@@ -66,7 +65,7 @@ namespace Mechanics.Tiles{
         public TileChar GetTileChar(Vector3Int location){
             var tile = tm.GetTile<Tile>(location);
             var tc = TileChar.AllColor;
-            
+
             if (tileCharDict.ContainsKey(tile))
                 tc = tileCharDict[tile];
 
