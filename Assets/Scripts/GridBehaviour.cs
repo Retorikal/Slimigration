@@ -53,6 +53,11 @@ namespace Mechanics.Tiles{
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
 
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                Application.Quit();
+            }
+
             if (Input.GetMouseButtonDown(0) && acceptingInput){
                 var targetPos = tm.WorldToCell(Camera.main.ScreenToWorldPoint(Input.mousePosition));
                 var slimeMoved = false;
@@ -89,7 +94,7 @@ namespace Mechanics.Tiles{
             {
                 SceneManager.LoadScene(i + 1);
             }
-            else if (i == 8 || Input.GetKeyDown(KeyCode.Escape))
+            else if (i == 8)
             {
                 Application.Quit();
             }
