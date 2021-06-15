@@ -84,11 +84,6 @@ namespace Mechanics.Tiles{
         }
 
         public void Win(){
-            SceneTransition();
-        }
-
-        public void SceneTransition()
-        {
             var i = SceneManager.GetActiveScene().buildIndex;
             if (i != 8)
             {
