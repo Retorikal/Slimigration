@@ -48,7 +48,12 @@ namespace Mechanics.Tiles{
                 return;
             }
 
-            if(Input.GetMouseButtonDown(0) && acceptingInput){
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            }
+
+            if (Input.GetMouseButtonDown(0) && acceptingInput){
                 var targetPos = tm.WorldToCell(Camera.main.ScreenToWorldPoint(Input.mousePosition));
                 var slimeMoved = false;
                 var tc = GetTileChar(targetPos);
@@ -79,10 +84,19 @@ namespace Mechanics.Tiles{
         }
 
         public void Win(){
+            SceneTransition();
+        }
+
+        public void SceneTransition()
+        {
             var i = SceneManager.GetActiveScene().buildIndex;
-            if (i != 4)
+            if (i != 8)
             {
                 SceneManager.LoadScene(i + 1);
+            }
+            else if (i == 8 || Input.GetKeyDown(KeyCode.Escape))
+            {
+                Application.Quit();
             }
         }
 
