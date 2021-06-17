@@ -10,6 +10,7 @@ namespace Mechanics.Tiles{
         public GameObject slimeManObject;
         public GameObject blockTilesObject;
         public GameObject trailTilesObject;
+        public Animator transition;
         public Tile[] tileList;
         public Tile[] goalTiles;
 
@@ -92,12 +93,22 @@ namespace Mechanics.Tiles{
             var i = SceneManager.GetActiveScene().buildIndex;
             if (i != 8)
             {
-                SceneManager.LoadScene(i + 1);
+               StartCoroutine(LoadNextLevel(i+1));
             }
             else if (i == 8)
             {
                 Application.Quit();
             }
+        }
+
+        IEnumerator LoadNextLevel(int levelIndex)
+        {
+            if(transition != null)
+            {
+                transition.SetTrigger("Start");
+                yield return new WaitForSeconds(1);
+            }
+            SceneManager.LoadScene(levelIndex);
         }
 
         public TileChar GetTileChar(Vector3Int location){

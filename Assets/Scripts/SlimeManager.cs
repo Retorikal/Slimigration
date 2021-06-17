@@ -13,6 +13,7 @@ namespace Mechanics.Player{
         public GameObject gameGridObject;
         public GameObject trailGridObject;
         public GameObject baseSlime;
+        public GameObject canMoveArrowPrefabs;
         public float mergeDelay;
         public Tilemap gameTM;
 
@@ -53,6 +54,9 @@ namespace Mechanics.Player{
             Debug.Log("Merge begins!");
             var newSlimeGO = Instantiate(baseSlime, gameObject.transform);
             var newSlime = newSlimeGO.GetComponent<Slime>();
+            var newArrowGO = Instantiate(canMoveArrowPrefabs, newSlimeGO.transform.position + new Vector3(0,0.75f,0), Quaternion.identity, newSlimeGO.transform);
+            newSlime.canMoveArrow = newArrowGO;
+
             slimes.Add(newSlime);
 
             slimes.Remove(s0);
@@ -84,7 +88,8 @@ namespace Mechanics.Player{
             s0.Spawn(source.location + dir0);
             s1.Spawn(source.location + dir1);
             source.Despawn(true);
-            
+            Destroy(source.canMoveArrow);
+
             // Enable all slime to move after all has moved
             bool allMoved = true;
 

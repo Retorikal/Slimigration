@@ -15,6 +15,7 @@ namespace Mechanics.Player{
         public bool slippery;
         public bool corrosive;
         public bool moved;
+        public GameObject canMoveArrow;
         public ulong slimeChars;
         public Slime[] componentSlime = {null, null};
         public Vector3Int location;
@@ -176,12 +177,23 @@ namespace Mechanics.Player{
         public void EnableMove(){
             Debug.Log("Enabled");
             moved = false;
+            
+            if (canMoveArrow != null)
+            {
+                canMoveArrow.SetActive(true);
+            }
+
             bgSr.color = new Color(255, 255, 255, 255);
             // change sprite
         }
 
         public void DisableMove(){
             moved = true;
+            if (canMoveArrow != null)
+            {
+                canMoveArrow.SetActive(false);
+            }
+
             bgSr.color = new Color(85, 85, 85, 255);
             Debug.Log("Disabled " + bgSr.color);            
         }
