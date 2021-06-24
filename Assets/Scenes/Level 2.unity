@@ -2849,7 +2849,7 @@ MonoBehaviour:
   gameGridObject: {fileID: 8569528678318404374}
   trailGridObject: {fileID: 8569528677934043739}
   baseSlime: {fileID: 899538338339460838, guid: 223e26273fd045b73954363f1a6689c4, type: 3}
-  canMoveArrowPrefabs: {fileID: 1950286738}
+  canMoveArrowPrefabs: {fileID: 0}
   mergeDelay: 1
   gameTM: {fileID: 0}
 --- !u!1 &8569528677207114155

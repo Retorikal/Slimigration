@@ -2569,6 +2569,7 @@ MonoBehaviour:
   slimeManObject: {fileID: 1377365754}
   blockTilesObject: {fileID: 516821475}
   trailTilesObject: {fileID: 445203504}
+  transition: {fileID: 0}
   tileList:
   - {fileID: 11400000, guid: b89ebd964c5e1d4ec94bd71a5c5ac692, type: 2}
   - {fileID: 11400000, guid: 9758d9fa1901f96d1b6913652ae9bcb2, type: 2}
@@ -2654,6 +2655,7 @@ MonoBehaviour:
   gameGridObject: {fileID: 1339812551}
   trailGridObject: {fileID: 445203504}
   baseSlime: {fileID: 899538338339460838, guid: 223e26273fd045b73954363f1a6689c4, type: 3}
+  canMoveArrowPrefabs: {fileID: 0}
   mergeDelay: 1
   gameTM: {fileID: 0}
 --- !u!1 &1486548992
@@ -3165,11 +3167,12 @@ MonoBehaviour:
   slippery: 0
   corrosive: 0
   moved: 0
+  canMoveArrow: {fileID: 0}
   slimeChars: 1
   componentSlime:
   - {fileID: 0}
   - {fileID: 0}
-  location: {x: 9, y: 7, z: 0}
+  location: {x: 14, y: 2, z: 0}
   facing: {x: 0, y: -1, z: 0}
   firstSpawn: 1
   direction: {x: 0, y: 0, z: 0}
@@ -3563,11 +3566,12 @@ MonoBehaviour:
   slippery: 0
   corrosive: 0
   moved: 0
+  canMoveArrow: {fileID: 0}
   slimeChars: 0
   componentSlime:
   - {fileID: 0}
   - {fileID: 0}
-  location: {x: 9, y: 3, z: 0}
+  location: {x: 10, y: 4, z: 0}
   facing: {x: 0, y: -1, z: 0}
   firstSpawn: 1
   direction: {x: 0, y: 0, z: 0}

@@ -54,8 +54,11 @@ namespace Mechanics.Player{
             Debug.Log("Merge begins!");
             var newSlimeGO = Instantiate(baseSlime, gameObject.transform);
             var newSlime = newSlimeGO.GetComponent<Slime>();
-            var newArrowGO = Instantiate(canMoveArrowPrefabs, newSlimeGO.transform.position + new Vector3(0,0.75f,0), Quaternion.identity, newSlimeGO.transform);
-            newSlime.canMoveArrow = newArrowGO;
+            if(canMoveArrowPrefabs != null)
+            {
+                var newArrowGO = Instantiate(canMoveArrowPrefabs, newSlimeGO.transform.position + new Vector3(0,0.75f,0), Quaternion.identity, newSlimeGO.transform);
+                newSlime.canMoveArrow = newArrowGO;
+            }
 
             slimes.Add(newSlime);
 
